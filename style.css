@@ -5,7 +5,7 @@
 }
 
 .header {
-  background-color: black;
+  background-color: #333;
 }
 
 .menu {
@@ -44,7 +44,7 @@
   margin: auto;
   font-size: xx-large;
   font-style: italic;
-  border-bottom: 5px solid black;
+  border-bottom: 5px solid #333;
 }
 
 .product {
@@ -66,8 +66,8 @@
 .itembox {
   margin: 20px;
   padding: 20px;
-  border-right: 1px solid black;
-  border-bottom: 1px solid black;
+  border-right: 1px solid #333;
+  border-bottom: 1px solid #333;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
@@ -200,7 +200,7 @@
   background-color: teal;
   color: white;
   font-size: larger;
-  border: 1px solid black;
+  border: 1px solid #333;
   cursor: pointer;
 }
 
@@ -221,4 +221,45 @@
     height: 15vh;
     flex-direction: column;
   }
+}
+
+.selectedItem{
+  display: flex;
+  align-items: center;
+  gap:2vmin;
+  padding:1vmin;
+}
+
+.selectedItem img{
+  width: 15%;
+  border-radius: 50%;
+}
+
+.selectedItem span{
+  font-weight: 600;
+}
+
+.selectedItem .itemPrice{
+  margin-left: auto;
+}
+
+.selectedItem .itemCode{
+  font-style: italic;
+  font-weight: 300;
+}
+
+.selectedItem input{
+  width: 2rem;
+  height: 1.5rem;
+  text-align: center;
+  border: none;
+  border-radius: 5px;
+  background-color: #333;
+  color:#eee;
+}
+
+.totalCost{
+  text-align: right;
+  padding: 1vmin;
+  border-top: 1px dotted #333;
 }
