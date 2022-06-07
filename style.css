@@ -127,6 +127,7 @@
 
 .cart {
   border-left: 1px solid silver;
+  display:none;
 }
 
 .calculateitem {
@@ -263,3 +264,4 @@
   padding: 1vmin;
   border-top: 1px dotted #333;
 }
+

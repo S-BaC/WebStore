@@ -2,13 +2,15 @@ let productData;
 let cost = 0;
 let selectedItems = [];
 let discount, discountDays;
+let discountAmt = 0;
 
 $(document).ready(async function(){
     await populateItems();
     showLocations();
     itemClickListener();
     formListener();
-}
+    deliveryListener();
+    }
 )
 
 async function populateItems(){
@@ -19,7 +21,6 @@ async function populateItems(){
     discount = Number(productData.discounts.rate);
     discountDays = productData.discounts.days;
     $('#discounttitle').html(`Discount(${discount*100}%)`);
-
 
     $('.products').append(
         `<div class="title">${productData.title}</div>`
@@ -46,7 +47,6 @@ async function populateItems(){
               </div>`)
         }
     }
-    
 }
 
 function showLocations(){
@@ -57,9 +57,10 @@ function showLocations(){
     }
 }
 
-
 function itemClickListener(){
     $('.card').mouseup((e)=>{
+
+        if($('.cart').css('display') === 'none') $('.cart').slideDown();
 
         let card = e.currentTarget; // The card
 
@@ -71,7 +72,6 @@ function itemClickListener(){
 
         } else {
             // If note included, a new node is added and cost updated.
-
             selectedItems.push(card);
             let price = (Number)(card.childNodes[1].childNodes[3].childNodes[2].textContent);
             // let category = card.parentElement.parentElement.childNodes[1];
@@ -91,10 +91,7 @@ function itemClickListener(){
             listenAndUpdate($('.selectedItem input').eq($('.selectedItem input').length-1)[0]);
             //  Cost is updated.
             updateCost();
-        }
-        
-        
-        
+        }     
  })
 }
 
@@ -120,10 +117,6 @@ function updatePrice(index){
     
     cost -= (Number)($('.itemPrice').eq(index).text());
 
-
-    // let currentPrice = (Number)($('.itemPrice').eq(index).text());
-    // let currentNum = (Number)($('.itemNum').eq(index).val());
-
     $('.itemPrice').eq(index).text(unitPrice * ($('.itemNum').eq(index).val()));  // Find unit price and multiply it by (updated) num.
 
     cost += (Number)($('.itemPrice').eq(index).text());
@@ -134,7 +127,8 @@ function updatePrice(index){
 
 function updateCost(){
     $('.totalCost').remove();
-    if(cost){
+    if(!cost) $('.cart').slideUp();
+    else{
       $('.calculateItem').append(
       `<div class="totalCost">
                 Total Cost: ${cost}
@@ -142,17 +136,18 @@ function updateCost(){
         )
         if(discountDays.includes(new Date().getDay())){
             $('#discountprice').html(cost*discount);
-            $('#grand').html(cost - cost*discount);
-        }  else {
-            $('#grand').html(cost);
+            discountAmt = cost*discount;
         }
+        calculateGrandTotal();
     }
-    
-
 }
 
-function calculateDiscount(){
-    
+function calculateGrandTotal(){
+    $('#grand').html(cost - discountAmt + (Number)($('#delivery').val()));
+}
+
+function deliveryListener(){
+    $('#delivery').change(()=>calculateGrandTotal());
 }
 
 function formListener(){
